@@ -13,6 +13,18 @@ import androidx.fragment.app.Fragment
 class HeadlinesFragment : Fragment(), AdapterView.OnItemClickListener {
     lateinit var headlinesListview: ListView
 
+    interface  HeadlinesClickListener{ //switchboard
+        fun onHeadlineclick(headline: String) //switch
+    }
+
+    lateinit var headlinesClickListener : HeadlinesClickListener
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //as is typecasting
+        headlinesClickListener = activity as MainActivity  //wiring
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,6 +41,7 @@ class HeadlinesFragment : Fragment(), AdapterView.OnItemClickListener {
         var item  = adapter?.getItemAtPosition(position).toString()
         //Toast.makeText(activity, item, Toast.LENGTH_SHORT).show()
         displayToast(item)
+        headlinesClickListener.onHeadlineclick(item)
     }
 
     fun Fragment.displayToast( message: String){
